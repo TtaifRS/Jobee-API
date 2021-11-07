@@ -14,6 +14,9 @@ dotenv.config({ path: './config/config.env' })
 //database connection 
 connectDatabase()
 
+//express bodyparser 
+app.use(express.json())
+
 app.use("/api/v1", jobs)
 
 const PORT = process.env.PORT
