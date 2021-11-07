@@ -41,3 +41,68 @@ exports.getJobInRadius = async (req, res, next) => {
         data: jobs
     })
 }
+
+//update job => /api/v1/job/:id 
+exports.updateJob = async (req, res, next) => {
+    let job = await Job.findById(req.params.id)
+
+    if (!job) {
+        return res.status(404).json({
+            success: false,
+            message: 'Job not found.'
+        })
+    }
+
+    job = await Job.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+        runValidators: true
+    })
+
+    res.status(200).json({
+        success: true,
+        message: 'job updated',
+        data: job
+    })
+}
+
+//delete job => /api/v1/job/:id 
+
+exports.deleteJob = async (req, res, next) => {
+    let job = await Job.findById(req.params.id)
+
+    if (!job) {
+        return res.status(404).json({
+            success: false,
+            message: 'Job not found!'
+        })
+    }
+
+    job = await Job.findByIdAndDelete(req.params.id)
+
+    res.status(200).json({
+        success: true,
+        message: 'Job deleted successfully'
+    })
+}
+
+//get a single job with id and slug => /api/v1/job/:id/:slug 
+exports.getJob = async (req, res, next) => {
+    let job = await Job.find({
+        $and: [
+            { _id: req.params.id },
+            { slug: req.params.slug }
+        ]
+    })
+
+    if (!job || job.length === 0) {
+        return res.status(404).json({
+            success: false,
+            message: 'Job not found!'
+        })
+    }
+
+    res.status(200).json({
+        success: true,
+        data: job
+    })
+}
