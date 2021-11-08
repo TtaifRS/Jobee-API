@@ -62,7 +62,7 @@ const jobSchema = new mongoose.Schema({
     },
     jobType: {
         type: String,
-        required: [true, 'Please enter job.'],
+        required: [true, 'Please enter job Type.'],
         enum: {
             values: [
                 'Permanent',

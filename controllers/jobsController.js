@@ -76,10 +76,7 @@ exports.deleteJob = catchAsyncError(async (req, res, next) => {
     let job = await Job.findById(req.params.id)
 
     if (!job) {
-        return res.status(404).json({
-            success: false,
-            message: 'Job not found!'
-        })
+        return next(new ErrorHandler('Jobs not found', 404))
     }
 
     job = await Job.findByIdAndDelete(req.params.id)
@@ -100,10 +97,7 @@ exports.getJob = catchAsyncError(async (req, res, next) => {
     })
 
     if (!job || job.length === 0) {
-        return res.status(404).json({
-            success: false,
-            message: 'Job not found!'
-        })
+        return next(new ErrorHandler('Jobs not found', 404))
     }
 
     res.status(200).json({
@@ -129,10 +123,7 @@ exports.getStats = catchAsyncError(async (req, res, next) => {
     ])
 
     if (stats.length === 0) {
-        return res.status(2000).json({
-            success: false,
-            message: `no stats found on ${req.params.topic}`
-        })
+        return next(new ErrorHandler(`no stats found on ${req.params.topic}`, 200))
     }
 
     res.status(200).json({
