@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 dotenv.config({ path: './config/config.env' })
 
 const connectDatabase = require('./config/databse')
+const errorMiddleware = require('./middlewares/errors')
 
 //importing routes 
 const jobs = require('./routes/jobs')
@@ -19,7 +20,12 @@ connectDatabase()
 //express bodyparser 
 app.use(express.json())
 
+
 app.use("/api/v1", jobs)
+
+//middlewares
+app.use(errorMiddleware)
+
 
 const PORT = process.env.PORT
 
