@@ -1,4 +1,4 @@
-const User = require('../models/user')
+const User = require('../models/users')
 const catchAsyncError = require('../middlewares/catchAsyncError')
 
 //register user => /api/v1/register 
@@ -12,9 +12,11 @@ exports.register = catchAsyncError(async (req, res, next) => {
         role
     })
 
+    const token = user.getJwtToken()
+
     res.status(200).json({
         success: true,
         message: "User is registered",
-        data: user
+        token
     })
 })
