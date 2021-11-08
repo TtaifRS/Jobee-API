@@ -11,6 +11,7 @@ const ErrorHandler = require('./utils/errorHandler')
 
 //importing routes 
 const jobs = require('./routes/jobs')
+const auth = require('./routes/auth')
 
 //Handling Uncaught Exception
 process.on('uncaughtException', err => {
@@ -27,8 +28,9 @@ connectDatabase()
 //express bodyparser 
 app.use(express.json())
 
-
+//route
 app.use("/api/v1", jobs)
+app.use('/api/v1', auth)
 
 //handle unhandle routes 
 app.all('*', (req, res, next) => {
