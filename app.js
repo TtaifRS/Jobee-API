@@ -1,5 +1,6 @@
 const express = require('express')
 const dotenv = require('dotenv')
+const cookieParser = require('cookie-parser')
 
 //setting up config.env file setup and initializing app
 dotenv.config({ path: './config/config.env' })
@@ -27,6 +28,9 @@ connectDatabase()
 
 //express bodyparser 
 app.use(express.json())
+
+//setting up cookie-parser 
+app.use(cookieParser())
 
 //route
 app.use("/api/v1", jobs)

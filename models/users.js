@@ -14,11 +14,11 @@ const userSchema = new mongoose.Schema({
         unique: true,
         validate: [validator.isEmail, 'Please enter valid email.']
     },
-    role: {
+    purpose: {
         type: String,
         enum: {
-            values: ['user', 'employeer'],
-            message: 'Please select correct role'
+            values: ['user', 'employer'],
+            message: 'Please select correct role',
         },
         default: 'user'
     },
@@ -52,3 +52,4 @@ userSchema.methods.comparePassword = async function (enteredPassword) {
 
 
 module.exports = mongoose.model('User', userSchema)
+
