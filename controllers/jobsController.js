@@ -11,6 +11,8 @@ exports.getJobs = catchAsyncError(async (req, res, next) => {
     const apiFilters = new APIFilters(Job.find(), req.query)
         .filter()
         .sort()
+        .limitFields()
+        .searchByQuery()
 
     const jobs = await apiFilters.query
     res.status(200).json({
