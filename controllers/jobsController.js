@@ -106,3 +106,32 @@ exports.getJob = async (req, res, next) => {
         data: job
     })
 }
+
+//get stats about a topic => /api/v1/stats/:topic
+exports.getStats = async (req, res, next) => {
+    let stats = await Job.aggregate([
+        { $match: { $text: { $search: "\"" + req.params.topic + "\"" } } },
+        {
+            $group: {
+                _id: { $toUpper: '$experience' },
+                totalJobs: { $sum: 1 },
+                avgPosition: { $avg: '$positions' },
+                avgSalary: { $avg: '$salary' },
+                minSalary: { $min: '$salary' },
+                maxSalary: { $max: '$salary' }
+            }
+        }
+    ])
+
+    if (stats.length === 0) {
+        return res.status(2000).json({
+            success: false,
+            message: `no stats found on ${req.params.topic}`
+        })
+    }
+
+    res.status(200).json({
+        success: true,
+        data: stats
+    })
+}

@@ -1,7 +1,7 @@
 const express = require('express')
 
 //importing controllers 
-const { getJobs, newJob, getJobInRadius, updateJob, deleteJob, getJob } = require('../controllers/jobsController')
+const { getJobs, newJob, getJobInRadius, updateJob, deleteJob, getJob, getStats } = require('../controllers/jobsController')
 
 const router = express.Router()
 
@@ -9,6 +9,7 @@ const router = express.Router()
 router.route('/jobs').get(getJobs)
 router.route('/job/:id/:slug').get(getJob)
 router.route('/jobs/:zipcode/:distance').get(getJobInRadius)
+router.route('/stats/:topic').get(getStats)
 
 router.route('/job/new').post(newJob)
 
