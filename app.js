@@ -1,6 +1,7 @@
 const express = require('express')
 const dotenv = require('dotenv')
 const cookieParser = require('cookie-parser')
+const fileUpload = require('express-fileupload')
 
 //setting up config.env file setup and initializing app
 dotenv.config({ path: './config/config.env' })
@@ -10,9 +11,11 @@ const connectDatabase = require('./config/databse')
 const errorMiddleware = require('./middlewares/errors')
 const ErrorHandler = require('./utils/errorHandler')
 
+
 //importing routes 
 const jobs = require('./routes/jobs')
 const auth = require('./routes/auth')
+const user = require('./routes/user')
 
 //Handling Uncaught Exception
 process.on('uncaughtException', err => {
@@ -32,9 +35,13 @@ app.use(express.json())
 //setting up cookie-parser 
 app.use(cookieParser())
 
+//file upload 
+app.use(fileUpload())
+
 //route
 app.use("/api/v1", jobs)
 app.use('/api/v1', auth)
+app.use('/api/v1', user)
 
 //handle unhandle routes 
 app.all('*', (req, res, next) => {
